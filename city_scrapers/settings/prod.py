@@ -12,7 +12,7 @@ USER_AGENT = "City Scrapers [production mode]. Learn more and say hello at https
 ITEM_PIPELINES = {
     # "city_scrapers_core.pipelines.S3DiffPipeline": 200,
     # "city_scrapers_core.pipelines.AzureDiffPipeline": 200,
-    # "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
+    "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
 }
@@ -30,7 +30,7 @@ SENTRY_DSN = os.getenv("SENTRY_DSN")
 EXTENSIONS = {
     # "city_scrapers_core.extensions.AzureBlobStatusExtension": 100,
     # "city_scrapers_core.extensions.S3StatusExtension": 100,
-    # "city_scrapers_core.extensions.GCSStatusExtension": 100,
+    "city_scrapers_core.extensions.GCSStatusExtension": 100,
     "scrapy_sentry_errors.extensions.Errors": 10,
     "scrapy.extensions.closespider.CloseSpider": None,
 }
@@ -48,7 +48,7 @@ FEED_FORMAT = "jsonlines"
 FEED_STORAGES = {
     # "s3": "scrapy.extensions.feedexport.S3FeedStorage",
     # "azure": "city_scrapers_core.extensions.AzureBlobFeedStorage",
-    # "gcs": "scrapy.extensions.feedexport.GCSFeedStorage",
+    "gcs": "scrapy.extensions.feedexport.GCSFeedStorage",
 }
 
 # Uncomment credentials for whichever provider you're using
@@ -63,21 +63,21 @@ FEED_STORAGES = {
 # AZURE_CONTAINER = os.getenv("AZURE_CONTAINER")
 # CITY_SCRAPERS_STATUS_CONTAINER = os.getenv("AZURE_STATUS_CONTAINER")
 
-# GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-# GCS_BUCKET = os.getenv("GCS_BUCKET")
-# CITY_SCRAPERS_STATUS_BUCKET = GCS_BUCKET
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+GCS_BUCKET = os.getenv("GCS_BUCKET")
+CITY_SCRAPERS_STATUS_BUCKET = GCS_BUCKET
 
 # https://jansonh.github.io/scrapinghub-gcs/
 # If "GOOGLE_APPLICATION_CREDENTIALS" is the credential rather than a path,
 # we need to write a local file with the credential.
 # (Important for certain providers, such as Github Actions integration.)
 # Uncomment the following code block if using GCS.
-# path = "{}/google-cloud-storage-credentials.json".format(os.getcwd())
-# credentials_content = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-# if not os.path.exists(credentials_content):
-#    with open(path, "w") as f:
-#        f.write(credentials_content)
-#    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
+path = "{}/google-cloud-storage-credentials.json".format(os.getcwd())
+credentials_content = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if not os.path.exists(credentials_content):
+   with open(path, "w") as f:
+       f.write(credentials_content)
+   os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
 
 
 # Uncomment the FEED_URI for whichever provider you're using
@@ -97,6 +97,6 @@ FEED_STORAGES = {
 #     container=AZURE_CONTAINER,
 # )
 
-# FEED_URI = (
-#    "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
-# ).format(bucket=GCS_BUCKET)
+FEED_URI = (
+   "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
+).format(bucket=GCS_BUCKET)
