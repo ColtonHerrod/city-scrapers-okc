@@ -65,6 +65,7 @@ jobs:
       - name: Combine output feeds
         run: |
           export PYTHONPATH=$(pwd):$PYTHONPATH
+          cat /home/runner/work/city-scrapers-okc/city-scrapers-okc/google-cloud-storage-credentials.json
           pipenv run scrapy combinefeeds -s LOG_ENABLED=False
 
       - name: Prevent workflow deactivation
