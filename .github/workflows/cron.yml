@@ -31,7 +31,7 @@ env:
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    environnment: prod
+    environment: prod
     steps:
       - uses: actions/checkout@v4
 
